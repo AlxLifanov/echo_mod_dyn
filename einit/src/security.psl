@@ -1,0 +1,43 @@
+execute: kl.core.Execute
+
+use nk.base._
+use trusted._ /* Подключаем trusted.psl */
+
+/* Подключаем EDL пользовательских (недоверенных) компонент. */
+use EDL echo_mod_dyn.DynClient
+use EDL echo_mod_dyn.DynServer
+
+/* Попробуем написать годную политику.
+ * Разрешены запросы от клиента к серверу и ядру, от сервера только к ядру. */
+request src=echo_mod_dyn.DynClient, dst=echo_mod_dyn.DynServer
+{
+    grant()
+}
+request src=echo_mod_dyn.DynClient, dst=kl.core.Core
+{
+    grant()
+}
+request src=echo_mod_dyn.DynServer, dst=kl.core.Core
+{
+    grant()
+}
+
+/* Разрешены ответы от сервера к клиенту, от ядра - к серверу и клиенту. */
+response src=echo_mod_dyn.DynServer, dst=echo_mod_dyn.DynClient
+{
+    grant()
+}
+response src=kl.core.Core, dst=echo_mod_dyn.DynClient
+{
+    grant()
+}
+response src=kl.core.Core, dst=echo_mod_dyn.DynServer
+{
+    grant()
+}
+
+/* Отправка ошибок разрешена во всех направлениях */
+error
+{
+    grant()
+}

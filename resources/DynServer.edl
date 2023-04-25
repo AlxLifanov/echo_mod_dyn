@@ -1,0 +1,6 @@
+entity echo_mod_dyn.DynServer
+
+endpoints
+{
+    pinginst : echo_mod_dyn.IDynPing
+}

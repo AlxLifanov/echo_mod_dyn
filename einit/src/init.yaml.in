@@ -1,0 +1,9 @@
+entities:
+
+# Поскольку соединение динамическое, процессы мы объявляем, а
+# соединения - нет.
+- name: echo_mod_dyn.DynClient
+- name: echo_mod_dyn.DynServer
+
+# Это макрос инициализации служебных соединений.
+@INIT_EXTERNAL_ENTITIES@

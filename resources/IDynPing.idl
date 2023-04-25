@@ -1,0 +1,7 @@
+package echo_mod_dyn.IDynPing
+
+// интерфейс идентичен примеру echo_mod
+interface
+{
+    FDynPing(in UInt32 value, out UInt32 result);
+}
