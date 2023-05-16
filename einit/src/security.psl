@@ -1,43 +1,67 @@
+/* Определение интерфейса исполнения */
 execute: kl.core.Execute
 
 use nk.base._
-use trusted._ /* Подключаем trusted.psl */
+use Core._ /* Подключаем файл политик для сервисов ядра Core.psl */
 
-/* Подключаем EDL пользовательских (недоверенных) компонент. */
+/* Подключаем Edl системных компонентов */
+use EDL kl.core.Core
+use EDL kl.core.NameServer
+use EDL Einit
+/* Подключаем Edl прикладных компонентов */
 use EDL echo_mod_dyn.DynClient
 use EDL echo_mod_dyn.DynServer
 
-/* Попробуем написать годную политику.
- * Разрешены запросы от клиента к серверу и ядру, от сервера только к ядру. */
-request src=echo_mod_dyn.DynClient, dst=echo_mod_dyn.DynServer
-{
-    grant()
-}
-request src=echo_mod_dyn.DynClient, dst=kl.core.Core
-{
-    grant()
-}
-request src=echo_mod_dyn.DynServer, dst=kl.core.Core
-{
-    grant()
+/* Разрешаем ядру запуск самого себя и Einit. */
+execute src=kl.core.Core dst=kl.core.Core { grant() }
+execute src=kl.core.Core dst=Einit { grant() }
+
+/* Разрешаем Einit запускать другие программы */
+execute src=Einit method=main {
+    match dst=kl.core.NameServer { grant () }
+    match dst=echo_mod_dyn.DynServer { grant () }
+    match dst=echo_mod_dyn.DynClient { grant () }
 }
 
-/* Разрешены ответы от сервера к клиенту, от ядра - к серверу и клиенту. */
-response src=echo_mod_dyn.DynServer, dst=echo_mod_dyn.DynClient
-{
-    grant()
-}
-response src=kl.core.Core, dst=echo_mod_dyn.DynClient
-{
-    grant()
-}
-response src=kl.core.Core, dst=echo_mod_dyn.DynServer
-{
-    grant()
-}
+/* Разрешаем все ответы */
+response { grant () }
 
 /* Отправка ошибок разрешена во всех направлениях */
-error
-{
-    grant()
+error { grant() }
+
+/* Разрешены запросы от клиента к серверу */
+request dst=echo_mod_dyn.DynServer {
+        match endpoint=pinginst {
+            match method=FDynPing { 
+                match src=echo_mod_dyn.DynClient { grant () }
+        }
+    }
 }
+
+/* Серверу разрешено публиковать, а клиенту читать информацию об IPC-интерфейсах*/
+request dst=kl.core.NameServer {
+        match endpoint=ns {
+            match method=Enum { 
+                match src=echo_mod_dyn.DynClient { grant () }
+            }
+            match method=Publish {
+                match src=echo_mod_dyn.DynServer { grant () }
+            }
+        }
+}
+
+/* Настройки параметров аудита */
+audit profile vdi_trace = {
+
+    0: {},
+
+    1: {
+        base: { kss: [ "denied" ] },
+    },
+
+    2: {
+        base: { kss: [ "granted", "denied" ] },
+    }
+}
+
+audit default = vdi_trace 1
