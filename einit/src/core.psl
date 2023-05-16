@@ -1,0 +1,171 @@
+request dst=kl.core.Core {
+    //Сервис синхронизации потоков.
+    match endpoint=sync.Sync {
+        match method=Wake {
+            match src=Einit { grant () }
+            match src=echo_mod_dyn.DynClient { grant () }
+            match src=echo_mod_dyn.DynServer { grant () }
+            match src=kl.core.NameServer { grant () }
+        }
+        match method=Wait {
+            match src=kl.core.NameServer { grant () }
+        }
+    }
+    // Сервис по работе с процессами.
+    match endpoint=task.Task {
+        match method=FreeSelfEnv {
+            match src=Einit { grant () }
+            match src=echo_mod_dyn.DynClient { grant () }
+            match src=echo_mod_dyn.DynServer { grant () }
+            match src=kl.core.NameServer { grant () }
+        }
+        match method=Exit {
+            match src=echo_mod_dyn.DynClient { grant () }
+            match src=echo_mod_dyn.DynServer { grant () }
+            match src=kl.core.NameServer { grant () }
+            match src=Einit { grant () }
+        }
+        match method=GetName {
+            match src=echo_mod_dyn.DynClient { grant () }
+            match src=echo_mod_dyn.DynServer { grant () }
+            match src=kl.core.NameServer { grant () }
+            match src=Einit { grant () }
+        }
+        match method=GetPath {
+            match src=echo_mod_dyn.DynClient { grant () }
+            match src=echo_mod_dyn.DynServer { grant () }
+            match src=kl.core.NameServer { grant () }
+            match src=Einit { grant () }
+        }
+        match method=Create {
+            match src=Einit { grant () }
+        }
+        match method=ReseedAslr {
+            match src=Einit { grant () }
+        }
+        match method=LoadSeg {
+            match src=Einit { grant () }
+        }
+        match method=LoadElfSyms {
+            match src=Einit { grant () }
+        }
+        match method=SetEntry {
+            match src=Einit { grant () }
+        }
+        match method=LoadElfHdr {
+            match src=Einit { grant () }
+        }
+        match method=SetEnv {
+            match src=Einit { grant () }
+        }
+        match method=Resume {
+            match src=Einit { grant () }
+        }
+    }
+    // Сервис по работе с виртуальной памятью.
+    match endpoint=vmm.VMM {
+        match method=Allocate {
+            match src=Einit { grant () }
+            match src=echo_mod_dyn.DynClient { grant () }
+            match src=echo_mod_dyn.DynServer { grant () }
+            match src=kl.core.NameServer { grant () }
+        }
+        match method=Free {
+            match src=Einit { grant () }
+            match src=echo_mod_dyn.DynClient { grant () }
+            match src=echo_mod_dyn.DynServer { grant () }
+            match src=kl.core.NameServer { grant () }
+        }
+        match method=Protect {
+            match src=Einit { grant () }
+        }
+        match method=Commit {
+            match src=Einit { grant () }
+            match src=echo_mod_dyn.DynClient { grant () }
+            match src=echo_mod_dyn.DynServer { grant () }
+            match src=kl.core.NameServer { grant () }
+        }
+        match method=MdlCreateFromVm {
+            match src=Einit { grant () }
+        }
+    }
+    // Сервис по работе с потоками.
+    match endpoint=thread.Thread {
+        match src=Einit { grant () }
+        match method=Sleep {
+            match src=echo_mod_dyn.DynClient { grant () }
+            match src=echo_mod_dyn.DynServer { grant () }
+            match src=kl.core.NameServer { grant () }            
+        }
+        match method=SetTls {
+            match src=echo_mod_dyn.DynClient { grant () }
+            match src=echo_mod_dyn.DynServer { grant () }
+            match src=kl.core.NameServer { grant () }
+        }
+        match method=Create {
+            match src=kl.core.NameServer { grant () }
+        }
+        match method=Resume {
+            match src=kl.core.NameServer { grant () }
+        }
+        match method=Terminate {
+            match src=kl.core.NameServer { grant () }
+        }
+        match method=Attach {
+            match src=kl.core.NameServer { grant () }
+        }
+        match method=GetInfo {
+            match src=kl.core.NameServer { grant () }
+        }
+    }
+    // Сервис слоя аппаратных абстракций.
+    match endpoint=hal.HAL {
+        match method=DebugWrite {
+            match src=Einit { grant () }
+        }
+    }
+    // Сервис по работе с хэндлами.
+    match endpoint=handle.Handle {
+        match src=Einit { grant () }
+        match method=UidAlloc {
+            match src=echo_mod_dyn.DynClient { grant () }
+            match src=echo_mod_dyn.DynServer { grant () }
+            match src=kl.core.NameServer { grant () }
+        }
+        match method=Close {
+            match src=kl.core.NameServer { grant () }
+        }
+    }
+
+    // Сервис по работе с файловой системой.
+    match endpoint=fs.FS {
+        match src=Einit { grant () }
+    }
+    // Сервис уведомлений.
+    match endpoint=notice.Notice {
+        match method=Create {
+            match src=Einit { grant () }
+        }
+        match method=SubscribeToObject {
+            match src=Einit { grant () }
+        }
+        match method=DropAndWake {
+            match src=Einit { grant () }
+        }
+    }
+    // Cервис по установлению соединений.
+    match endpoint=cm.CM {
+        match method=Connect {
+            match src=echo_mod_dyn.DynClient { grant () }
+            match src=echo_mod_dyn.DynServer { grant () }
+        }
+        match method=Listen {
+            match src=echo_mod_dyn.DynServer { grant () }
+            match src=kl.core.NameServer { grant () }            
+        }
+        match method=Accept {
+            match src=echo_mod_dyn.DynServer { grant () }
+            match src=kl.core.NameServer { grant () }
+        }
+    }
+}
