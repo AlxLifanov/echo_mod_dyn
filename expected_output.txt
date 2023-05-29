@@ -1,0 +1,44 @@
+[2023-05-04T09:41:42.848][Info][kl.core.NameServer][21:22][NS] Starting name server service...
+[2023-05-04T09:41:42.892][Info][kl.core.NameServer][21:22][NS] Waiting first connection...
+[2023-05-04T09:41:42.893][Info][kl.core.NameServer][21:15][NS] Starting connection listener thread.
+[DynClient] Starting!
+[2023-05-04T09:41:42.938][Info][echo_mod_dyn.DynClient][37:38][NS] Connection with Name Server is established.
+[DynServer] starting!
+[2023-05-04T09:41:42.976][Info][kl.core.NameServer][21:22][NS] Starting dispatch loop...
+[2023-05-04T09:41:42.975][Info][echo_mod_dyn.DynServer1][29:30][NS] Connection with Name Server is established.
+.[DynClient] NsEnum found: index 0, server echo_mod_dyn.DynServer1, service pinginst
+....
+[DynClient] NsEnum timeout
+[DynServer] Accepting connect from echo_mod_dyn.DynClient to pinginst
+[DynServer] Cycle start
+[DynClient] sending 777
+[DynServer] request 777, result 780
+[DynClient] received result 780
+[DynClient] sending 780
+[DynServer] request 780, result 783
+[DynClient] received result 783
+[DynClient] sending 783
+[DynServer] request 783, result 786
+[DynClient] received result 786
+[DynClient] sending 786
+[DynServer] request 786, result 789
+[DynClient] received result 789
+[DynClient] sending 789
+[DynServer] request 789, result 792
+[DynClient] received result 792
+[DynClient] sending 792
+[DynServer] request 792, result 795
+[DynClient] received result 795
+[DynClient] sending 795
+[DynServer] request 795, result 798
+[DynClient] received result 798
+[DynClient] sending 798
+[DynServer] request 798, result 801
+[DynClient] received result 801
+[DynClient] sending 801
+[DynServer] request 801, result 804
+[DynClient] received result 804
+[DynClient] sending 804
+[DynServer] request 804, result 807
+[DynClient] received result 807
+[DynClient]: Finished, exiting
